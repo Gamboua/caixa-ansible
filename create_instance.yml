@@ -1,0 +1,6 @@
+---
+
+- name: Criar nova instancia do moodle
+  hosts: moodle-parceiros
+  roles:
+    - { role: create-instance }

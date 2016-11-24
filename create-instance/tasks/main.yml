@@ -1,0 +1,20 @@
+- name: Diretorio dentro de /srv/www
+  file: path=/srv/www/{{ instancia }} state=directory mode=755 owner=www-data
+
+- name: Clone do repositorio GIT
+  git: repo=git@10.123.8.252:moodle/{{ instancia }}.git dest=/srv/www/{{ instancia }}
+
+- name: Cria arquivo de configuracao do moodle
+  template: src=moodle-config dest="/srv/www/{{ instancia }}/config.php" mode=644 owner=www-data
+
+- name: Adiciona agendamento na cron para instancia
+  cron: name="cron {{ instancia }}" minute=*/30 job="wget -q -O /dev/null http://{{ moodlewwwname }}/moodle/admin/cron.php"
+
+- name: Diretorio com os aliases
+  file: path=/etc/apache2-parceiros/parceiros-aliases state=directory
+
+- name: Criar arquivo com os aliases
+  template: src=apache2-aliases dest=/etc/apache2-parceiros/parceiros-aliases/{{ instancia }}.conf mode=644
+
+- name: Reinicializar os arquivos de configuracao
+  command: /usr/local/sbin/apache2ctl-parceiros restart

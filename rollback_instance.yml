@@ -1,0 +1,6 @@
+---
+- name: Realizar o rollback para alguma versão
+  hosts: moodle-parceiros
+  tasks:
+    - name: Clone do repositorio GIT
+      git: repo=git@10.123.8.252:moodle/{{ instancia }}.git dest=/srv/www/{{ instancia }} version={{ version }}

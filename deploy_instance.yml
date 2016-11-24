@@ -1,0 +1,9 @@
+---
+- name: Realizar git pull em instancia
+  hosts: moodle-parceiros
+  tasks:
+    - name: Diretorio dentro de /srv/www
+      file: path=/srv/www/{{ instancia }} state=directory mode=755 owner=www-data
+
+    - name: Clone do repositorio GIT
+      git: repo=git@10.123.8.252:moodle/{{ instancia }}.git dest=/srv/www/{{ instancia }}
