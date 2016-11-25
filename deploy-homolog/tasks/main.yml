@@ -1,0 +1,20 @@
+- name: Diretorio dentro de /srv/www
+  file: path=/srv/www/moodlehomolog state=directory mode=755 owner=www-data
+
+- name: Cria diretorio moodledata
+  file: path=/srv/moodledata/moodlehomolog/moodledata state=directory mode=755 owner=www-data
+
+- name: Clone do repositorio GIT
+  git: repo=git@10.123.8.252:moodle/{{ instancia }}.git dest=/srv/www/{{ instancia }} version=homolog
+
+- name: Cria arquivo de configuracao do moodle
+  template: src=moodle-config dest="/srv/www/moodlehomolog/config.php" mode=644 owner=www-data
+
+- name: Diretorio com os aliases
+  file: path=/etc/apache2-parceiros/parceiros-aliases state=directory
+
+- name: Criar arquivo com os aliases
+  template: src=apache2-aliases dest=/etc/apache2-parceiros/parceiros-aliases/moodlehomolog.conf mode=644
+
+- name: Reinicializar os arquivos de configuracao
+  command: /usr/local/sbin/apache2ctl-parceiros restart

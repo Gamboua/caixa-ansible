@@ -1,0 +1,18 @@
+---
+- name: Backup da base de dados da instancia
+  hosts: postgresql
+  tasks:
+    - name: Verifica se arquivo existe
+      stat: path=/postgres/backup/{{ instancia }}
+      register: status
+
+    - name: Drop da base
+      sudo: yes
+      sudo_user: postgres
+      shell: "dropdb -p 5433 {{ instancia }}"
+      when: status.stat.exists == true
+
+    - name: Restore da base
+      sudo: yes
+      sudo_user: postgres
+      shell: "psql -p 5433 {{ instancia }} < /postgres/backup/{{ instancia }}.dump"

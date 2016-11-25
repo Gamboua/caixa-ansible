@@ -1,6 +1,6 @@
 ---
 - name: Realizar git pull em instancia
-  hosts: moodle-parceiros
+  hosts: moodleparceiros
   tasks:
     - name: Diretorio dentro de /srv/www
       file: path=/srv/www/{{ instancia }} state=directory mode=755 owner=www-data

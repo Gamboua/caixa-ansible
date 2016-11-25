@@ -1,0 +1,5 @@
+---
+- name: Realizar deploy de homologacao
+  hosts: moodleparceiros
+  roles:
+    - { role: create-homolog }

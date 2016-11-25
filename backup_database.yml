@@ -1,0 +1,11 @@
+---
+- name: Backup da base de dados da instancia
+  hosts: postgresql
+  tasks:
+    - name: Diretorio backup da instancia
+      file: path=/postgres/backup state=directory mode=755 owner=postgres
+
+    - name: Backup da base
+      sudo: yes
+      sudo_user: postgres
+      shell: "pg_dump -p 5433 {{ instancia }} > /postgres/backup/{{ instancia }}.dump"

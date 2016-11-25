@@ -3,21 +3,29 @@
   hosts: postgresql
   tasks:
     - name: Garantir a base de dados
-      become: true
-      become_user: postgres
+      # become: true
+      # become_user: postgres
+      sudo: yes
+      sudo_user: postgres
       postgresql_db: state=present db={{ db_name }} port={{ db_port }}
 
     - name: Garantir acesso do usuario na base
-      become: true
-      become_user: postgres
+      # become: true
+      # become_user: postgres
+      sudo: yes
+      sudo_user: postgres
       postgresql_user: name={{ db_user }} password={{ db_pass }} state=present priv=CONNECT db={{ db_name }} port={{ db_port }}
 
     - name: Garantir privilegios do usuario
-      become: true
-      become_user: postgres
+      # become: true
+      # become_user: postgres
+      sudo: yes
+      sudo_user: postgres
       postgresql_user: name={{ db_user }} role_attr_flags=LOGIN,CREATEDB port={{ db_port }}
 
     - name: Garantir privilegios do usuario na base
-      become: true
-      become_user: postgres
+      # become: true
+      # become_user: postgres
+      sudo: yes
+      sudo_user: postgres
       postgresql_privs: privs=ALL type=schema objs=public role={{ db_user }} db={{ db_name }} port={{ db_port }}
